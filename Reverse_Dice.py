@@ -58,23 +58,27 @@ class ReverseDice:
                 elif dice_nums[n] > max_rolls[n]:
                     dice_nums[n] = max_rolls[n]
 
-            # distributes any remaining values after rounding
+            # distributes any remaining values after rounding accounting for any errors in dice roll results
             if sum(dice_nums) != result - modifier:
                 i = result - modifier - sum(dice_nums)
-                while True:
-                    for l in range(len(dice_nums)):
+                    while True:
+                        for x in range(len(dice_nums)):
+                            if i == 0:
+                                break
+                            elif i >= 1:
+                                if dice_nums[x] < max_rolls[x]:
+                                    dice_nums[x] = dice_nums[x] + 1
+                                else:
+                                    dice_nums[x] = max_rolls[x]
+                                i -= 1
+                            else:
+                                if dice_nums[x] > roll_grouped[x][0]:
+                                    dice_nums[x] = dice_nums[x] - 1
+                                else:
+                                    dice_nums[x] = roll_grouped[x][0]
+                                i += 1
                         if i == 0:
                             break
-                        elif i >= 1:
-                            if dice_nums[l] < max_rolls[l]:
-                                dice_nums[l] = dice_nums[l] + 1
-                                i -= 1
-                        else:
-                            if dice_nums[l] > roll_grouped[l][0]:
-                                dice_nums[l] = dice_nums[l] - 1
-                                i += 1
-                    if i == 0:
-                        break
 
             # finds a matching roll randomly, inverts any negatives
             results_list = []
