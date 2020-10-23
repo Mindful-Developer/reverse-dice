@@ -1,11 +1,15 @@
+import numpy as np
+import math
+
+
 class ReverseDice:
 
     # generates random numbers using k as the number of dice, n as the highest number and N as the number of dice
     @staticmethod
     def generate_rolls_to_sum(total, k, n, N):
-        roller = np.random.randint(low=1, high=n + 1, size=(N, k))
-        idx = np.where(roller.sum(axis=1) == total)
-        return roller[idx, :]
+        roll = np.random.randint(low=1, high=n + 1, size=(N, k))
+        idx = np.where(roll.sum(axis=1) == total)
+        return roll[idx, :]
 
     # sends requests to generator function until the correct total is returned
     def get_roll(self, total, k, n):
